@@ -21,24 +21,22 @@ robots.txt
 
 ## Publish
 
+Deploys to **github.com/mmwoolim/website** → live at **https://mmwoolim.github.io/website/**
+
 ```bash
-git add -A
-git commit -m "Personal site"
-git branch -M main
-git remote add origin https://github.com/<your-username>/<your-username>.github.io.git
+git remote add origin https://github.com/mmwoolim/website.git
 git push -u origin main
 ```
 
-Then **Settings → Pages → Source: Deploy from a branch → `main` / `(root)`**.
+Then **Settings → Pages → Source: Deploy from a branch → `main` / `(root)` → Save**.
+The site is live about a minute later.
 
-The site is live at `https://<your-username>.github.io/` about a minute later.
+### If you move it to `mmwoolim.github.io`
 
-### If the repo is *not* named `<username>.github.io`
-
-The site will live at `https://<username>.github.io/<repo-name>/`. All asset paths are already
-relative, so it works — but update the absolute URLs in `index.html` so link previews resolve:
-`<link rel="canonical">`, the four `og:*` / `twitter:image` tags, and the `url` / `image`
-fields in the JSON-LD block near the top of the file.
+Serving from a repo named `mmwoolim.github.io` drops the `/website/` subpath. Asset paths are
+all relative so the page still works — but the absolute URLs need updating or link previews
+break: `<link rel="canonical">`, the `og:image` / `og:url` / `twitter:image` tags, and the
+`url` / `image` fields in the JSON-LD block. All six sit in the first 55 lines of `index.html`.
 
 ### Custom domain
 
