@@ -614,6 +614,93 @@ h1 em, h2 em, h3 em { font-style: italic; color: var(--accent); }
 .site-footer a:hover { color: var(--accent); }
 
 /* =========================================================
+   CONTACT MODAL
+   Native <dialog>: focus trapping, Esc-to-close and top-layer
+   stacking come from the platform rather than from JS.
+   ========================================================= */
+.contact-modal {
+  width: min(560px, 100%);
+  max-height: calc(100svh - 3rem);
+  margin: auto;
+  padding: clamp(1.5rem, 4vw, 2.25rem);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--paper-2);
+  color: var(--ink);
+  box-shadow: 0 40px 90px -30px rgba(8, 18, 14, .5);
+  overflow: auto;
+}
+.contact-modal::backdrop {
+  background: rgba(8, 16, 13, .55);
+  backdrop-filter: blur(9px);
+  -webkit-backdrop-filter: blur(9px);
+}
+.contact-modal[open] { animation: modal-rise .34s var(--ease) both; }
+.contact-modal[open]::backdrop { animation: modal-fade .28s var(--ease) both; }
+@keyframes modal-rise { from { opacity: 0; transform: translateY(14px) scale(.985); } }
+@keyframes modal-fade { from { opacity: 0; } }
+
+.contact-modal-top {
+  display: flex; align-items: center; justify-content: space-between; gap: 2rem;
+  padding-bottom: 1.15rem;
+  border-bottom: 1px solid var(--line);
+}
+.contact-modal-close {
+  display: inline-flex; align-items: center; gap: .45rem;
+  font-size: .68rem; font-weight: 600;
+  letter-spacing: .13em; text-transform: uppercase;
+  color: var(--muted);
+  transition: color .25s var(--ease);
+}
+.contact-modal-close span { font-size: 1.15rem; line-height: .7; color: var(--accent); }
+.contact-modal-close:hover { color: var(--ink); }
+
+.contact-modal h2 {
+  font-size: clamp(2.1rem, 6vw, 2.9rem);
+  margin: 1.6rem 0 1.8rem;
+}
+.contact-modal h2:focus { outline: none; }   /* programmatic focus target only */
+
+.contact-options { border-top: 1px solid var(--line); }
+.contact-options a {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) auto;
+  align-items: center; gap: 1rem;
+  padding: 1.15rem .4rem;
+  border-bottom: 1px solid var(--line);
+  transition: background-color .25s var(--ease), color .25s var(--ease), padding-inline .25s var(--ease);
+}
+.contact-options a:hover,
+.contact-options a:focus-visible {
+  background: var(--ink); color: var(--paper);
+  outline: none; padding-inline: 1rem;
+}
+.contact-option-index {
+  font-family: var(--display); font-size: 1.2rem; color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+.contact-options a > span:nth-child(2) { display: flex; flex-direction: column; gap: .2rem; min-width: 0; }
+.contact-options strong { font-size: 1rem; font-weight: 500; }
+.contact-options small { font-size: .76rem; color: var(--muted); overflow-wrap: anywhere; }
+.contact-options a:hover small,
+.contact-options a:focus-visible small { color: color-mix(in srgb, var(--paper) 70%, transparent); }
+.contact-option-arrow { font-size: 1.1rem; transition: transform .3s var(--ease); }
+.contact-options a:hover .contact-option-arrow { transform: translate(3px, -3px); }
+
+.contact-modal-foot {
+  margin-top: 1.4rem;
+  font-size: .74rem; color: var(--muted); letter-spacing: .02em;
+}
+
+/* keeps the page behind the dialog from scrolling */
+html.modal-open, html.modal-open body { overflow: hidden; }
+
+@media (max-width: 560px) {
+  .contact-modal { width: 100%; padding: 1.35rem; }
+  .contact-options a { grid-template-columns: 34px minmax(0, 1fr) auto; padding: 1.05rem .2rem; }
+}
+
+/* =========================================================
    REVEAL ANIMATION
    ========================================================= */
 /* Scoped to .js so the page is never blank if scripting is off or main.js

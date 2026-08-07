@@ -54,6 +54,56 @@
     });
   }
 
+  /* ---------- contact modal ---------- */
+  var modal = document.getElementById("contactModal");
+  var modalClose = document.getElementById("contactModalClose");
+
+  if (modal && typeof modal.showModal === "function") {
+    var openModal = function () {
+      closeMenu();
+      root.classList.add("modal-open");
+      modal.showModal();
+    };
+
+    /* The scroll lock is released here rather than only in the "close" handler.
+       Leaving it on would make the page unscrollable, so every dismissal path
+       clears it directly instead of trusting a single event to arrive. */
+    var closeModal = function () {
+      root.classList.remove("modal-open");
+      if (modal.open) modal.close();
+    };
+
+    document.querySelectorAll("[data-contact-open]").forEach(function (trigger) {
+      trigger.addEventListener("click", function (e) {
+        e.preventDefault();       // the href="#contact" is the no-JS fallback
+        openModal();
+      });
+    });
+
+    if (modalClose) modalClose.addEventListener("click", closeModal);
+
+    // click on the backdrop (i.e. outside the dialog box) dismisses it
+    modal.addEventListener("click", function (e) {
+      if (e.target !== modal) return;
+      var r = modal.getBoundingClientRect();
+      var inside = e.clientX >= r.left && e.clientX <= r.right &&
+                   e.clientY >= r.top && e.clientY <= r.bottom;
+      if (!inside) closeModal();
+    });
+
+    // picking an option should not leave the dialog hanging open behind it
+    modal.querySelectorAll(".contact-options a").forEach(function (a) {
+      a.addEventListener("click", closeModal);
+    });
+
+    // Esc is handled natively; catch it here too so the lock lifts with it
+    modal.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") root.classList.remove("modal-open");
+    });
+    modal.addEventListener("cancel", function () { root.classList.remove("modal-open"); });
+    modal.addEventListener("close", function () { root.classList.remove("modal-open"); });
+  }
+
   /* ---------- sticky header state ---------- */
   var header = document.querySelector(".site-header");
   var ticking = false;

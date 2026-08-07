@@ -8,35 +8,44 @@ no build step, no dependencies. Deploys straight to GitHub Pages.
 ```
 index.html            the whole page
 assets/styles.css     design system + all layout
-assets/main.js        theme toggle, mobile nav, scroll reveal, active-nav spy
+assets/main.js        theme toggle, mobile nav, contact dialog, scroll reveal, nav spy
 assets/portrait.jpg   hero portrait (1000×1250)
 assets/portrait-sm.jpg  small variant served to phones via srcset
 assets/og.jpg         1200×630 link-preview card
 assets/avatar.jpg     square crop, used as the apple-touch-icon
 assets/Minwoo-Lim-CV.pdf  linked from the "Curriculum Vitae" button in the contact block
 favicon.svg           ML monogram
-.nojekyll             tells Pages to serve the files as-is
+.nojekyll             only matters if you switch to branch-based deploys; the
+                      Actions workflow serves files as-is and strips dotfiles
 robots.txt
+.github/workflows/static.yml   publishes on every push to main
 ```
 
 ## Publish
 
-Deploys to **github.com/mmwoolim/website** → live at **https://mmwoolim.github.io/website/**
+Deploys to **github.com/mmwoolim/mmwoolim.github.io** → live at **https://mmwoolim.github.io/**
+
+Deployment runs through GitHub Actions ([`.github/workflows/static.yml`](.github/workflows/static.yml)),
+so every push to `main` republishes the site. There is no build step — the workflow uploads the
+repo root as-is.
+
+**One-time setup:** repo → **Settings → Pages → Source: GitHub Actions**.
+
+Then:
 
 ```bash
-git remote add origin https://github.com/mmwoolim/website.git
+git remote add origin https://github.com/mmwoolim/mmwoolim.github.io.git
 git push -u origin main
 ```
 
-Then **Settings → Pages → Source: Deploy from a branch → `main` / `(root)` → Save**.
-The site is live about a minute later.
+Watch the run under the **Actions** tab; the site is live about a minute after it goes green.
+You can also republish without a commit via **Actions → Deploy static content to Pages → Run workflow**.
 
-### If you move it to `mmwoolim.github.io`
+### Absolute URLs
 
-Serving from a repo named `mmwoolim.github.io` drops the `/website/` subpath. Asset paths are
-all relative so the page still works — but the absolute URLs need updating or link previews
-break: `<link rel="canonical">`, the `og:image` / `og:url` / `twitter:image` tags, and the
-`url` / `image` fields in the JSON-LD block. All six sit in the first 55 lines of `index.html`.
+Six URLs in `index.html` are absolute because link previews need them: `<link rel="canonical">`,
+`og:image`, `og:url`, `twitter:image`, and the `url` / `image` fields in the JSON-LD block. They
+all point at `https://mmwoolim.github.io/`. Update them if the site ever moves.
 
 ### Custom domain
 

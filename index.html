@@ -8,20 +8,20 @@
 <meta name="author" content="Minwoo Lim" />
 <meta name="theme-color" content="#FBFAF6" media="(prefers-color-scheme: light)" />
 <meta name="theme-color" content="#0B120F" media="(prefers-color-scheme: dark)" />
-<link rel="canonical" href="https://mmwoolim.github.io/website/" />
+<link rel="canonical" href="https://mmwoolim.github.io/" />
 
 <meta property="og:type" content="profile" />
 <meta property="og:title" content="Minwoo Lim — Founder, Investor &amp; Behavioural Fintech" />
 <meta property="og:description" content="I build ventures where behaviour meets capital. Founder &amp; CEO of PnL App · Founder of Breiterman LLC · Dubai, UAE." />
-<meta property="og:image" content="https://mmwoolim.github.io/website/assets/og.jpg" />
+<meta property="og:image" content="https://mmwoolim.github.io/assets/og.jpg" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 <meta property="og:image:alt" content="Minwoo Lim, founder and investor, Dubai" />
-<meta property="og:url" content="https://mmwoolim.github.io/website/" />
+<meta property="og:url" content="https://mmwoolim.github.io/" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Minwoo Lim — Founder, Investor &amp; Behavioural Fintech" />
 <meta name="twitter:description" content="I build ventures where behaviour meets capital." />
-<meta name="twitter:image" content="https://mmwoolim.github.io/website/assets/og.jpg" />
+<meta name="twitter:image" content="https://mmwoolim.github.io/assets/og.jpg" />
 
 <link rel="icon" href="favicon.svg" type="image/svg+xml" />
 <link rel="apple-touch-icon" href="assets/avatar.jpg" />
@@ -48,8 +48,8 @@
   "name": "Minwoo Lim",
   "jobTitle": "Founder & CEO",
   "email": "mailto:minwoolim@pnlapp.co",
-  "url": "https://mmwoolim.github.io/website/",
-  "image": "https://mmwoolim.github.io/website/assets/og.jpg",
+  "url": "https://mmwoolim.github.io/",
+  "image": "https://mmwoolim.github.io/assets/og.jpg",
   "address": { "@type": "PostalAddress", "addressLocality": "Dubai", "addressCountry": "AE" },
   "worksFor": [
     { "@type": "Organization", "name": "PnL App", "url": "https://pnlapp.co/" },
@@ -85,7 +85,8 @@
     <a href="#press">Press</a>
     <a href="#experience">Experience</a>
     <a href="#about">About</a>
-    <a class="nav-cta" href="https://calendar.app.google/7ZA8y6dbsNQ73TJe8" target="_blank" rel="noopener">Book a call <span aria-hidden="true">↗</span></a>
+    <!-- real link to #contact so it degrades gracefully; JS upgrades it to the dialog -->
+    <a class="nav-cta" href="#contact" data-contact-open>Let’s talk <span aria-hidden="true">↗</span></a>
   </nav>
 
   <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch colour theme">
@@ -460,6 +461,36 @@
   <span>© <span id="year">2026</span> Minwoo Lim · Dubai, United Arab Emirates</span>
   <a href="#top">Back to top <span aria-hidden="true">↑</span></a>
 </footer>
+
+<dialog class="contact-modal" id="contactModal" aria-labelledby="contactModalTitle">
+  <div class="contact-modal-top">
+    <p class="kicker">Get in touch</p>
+    <button class="contact-modal-close" id="contactModalClose" type="button">Close <span aria-hidden="true">×</span></button>
+  </div>
+
+  <!-- takes initial focus so the title is announced and Tab lands on the options -->
+  <h2 id="contactModalTitle" tabindex="-1" autofocus>Let’s <em>talk.</em></h2>
+
+  <div class="contact-options">
+    <a href="mailto:minwoolim@pnlapp.co">
+      <span class="contact-option-index">01</span>
+      <span><strong>Email</strong><small>minwoolim@pnlapp.co</small></span>
+      <span class="contact-option-arrow" aria-hidden="true">↗</span>
+    </a>
+    <a href="https://www.linkedin.com/in/minwoolim" target="_blank" rel="noopener">
+      <span class="contact-option-index">02</span>
+      <span><strong>LinkedIn</strong><small>linkedin.com/in/minwoolim</small></span>
+      <span class="contact-option-arrow" aria-hidden="true">↗</span>
+    </a>
+    <a href="https://calendar.app.google/7ZA8y6dbsNQ73TJe8" target="_blank" rel="noopener">
+      <span class="contact-option-index">03</span>
+      <span><strong>Book a call</strong><small>Pick a slot in my calendar</small></span>
+      <span class="contact-option-arrow" aria-hidden="true">↗</span>
+    </a>
+  </div>
+
+  <p class="contact-modal-foot">Dubai, United Arab Emirates · GST&nbsp;(UTC+4)</p>
+</dialog>
 
 <script src="assets/main.js" defer></script>
 </body>
