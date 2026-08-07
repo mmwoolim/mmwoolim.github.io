@@ -1,0 +1,5 @@
+.DS_Store
+Thumbs.db
+
+# original source photo — optimized versions live in assets/
+Screenshot*.png
