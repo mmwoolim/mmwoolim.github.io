@@ -34,10 +34,38 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
+        id: upload
         uses: actions/upload-pages-artifact@v5
         with:
           # Upload entire repository
           path: '.'
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v5
+        uses: actions/github-script@v8
+        env:
+          PAGES_ARTIFACT_ID: ${{ steps.upload.outputs.artifact_id }}
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const artifactId = Number(process.env.PAGES_ARTIFACT_ID);
+            if (!Number.isSafeInteger(artifactId) || artifactId <= 0) {
+              throw new Error('The upload did not return a valid Pages artifact ID.');
+            }
+            const token = await core.getIDToken();
+            core.setSecret(token);
+            const { data } = await github.request('POST /repos/{owner}/{repo}/pages/deployments', {
+              owner, repo, artifact_id: artifactId, pages_build_version: context.sha, oidc_token: token
+            });
+            core.setOutput('page_url', data.page_url);
+            for (let attempt = 0; attempt < 90; attempt++) {
+              const response = await github.request('GET /repos/{owner}/{repo}/pages/deployments/{deployment_id}', {
+                owner, repo, deployment_id: data.id
+              });
+              const status = response.data.status;
+              if (status === 'succeed') return;
+              if (['errored', 'deployment_failed', 'deployment_content_failed', 'deployment_cancelled', 'deployment_lost', 'failed', 'cancelled'].includes(status)) {
+                throw new Error('Pages deployment ended with status ' + status);
+              }
+              await new Promise(resolve => setTimeout(resolve, 6000));
+            }
+            throw new Error('Timed out waiting for publication.');
